@@ -12,7 +12,7 @@ public class TesteController {
     @GetMapping("/teste")
     public String action() {
         System.out.println("Olá, Treinaweb!");
-        return "Treinaweb";
+        return "teste";
     }
 
 }
