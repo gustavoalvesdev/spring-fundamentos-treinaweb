@@ -5,3 +5,8 @@ Aulas do curso **Spring Fundamentos** da Treinaweb.
 ```bash
 mvn spring-boot:run
 ```
+
+## Usar a versão do Maven que já vem embutida na aplicação (Maven Wrapper)
+```bash
+mvnw spring-boot:run
+```
