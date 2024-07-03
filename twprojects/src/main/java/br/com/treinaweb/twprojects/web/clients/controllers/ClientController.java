@@ -69,4 +69,13 @@ public class ClientController {
 
         return "redirect:/clients";
     }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        if (!clientRepository.existsById(id)) {
+            throw new NoSuchElementException("Cliente não enontrado");
+        }
+        clientRepository.deleteById(id);
+        return "redirect:/clients";
+    }   
 }
