@@ -1,8 +1,11 @@
 package br.com.treinaweb.twprojects.web.clients.controllers;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,6 +41,32 @@ public class ClientController {
     public String create(ClientForm clientForm) {
         var client = clientForm.toClient();
         clientRepository.save(client);
+        return "redirect:/clients";
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView edit(@PathVariable Long id) {
+        var client = clientRepository.findById(id);
+        if (!client.isPresent()) {
+            throw new NoSuchElementException("Cliente não enontrado");
+        }
+        var model = Map.of("clientForm", ClientForm.of(client.get()));
+        return new ModelAndView("clients/edit", model);
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit(@PathVariable Long id, ClientForm clientForm) {
+
+        if (!clientRepository.existsById(id)) {
+            throw new NoSuchElementException("Cliente não enontrado");
+        }
+
+        var client = clientForm.toClient();
+
+        client.setId(id);
+
+        clientRepository.save(client);
+
         return "redirect:/clients";
     }
 }
